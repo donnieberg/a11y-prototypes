@@ -20,33 +20,44 @@ img { max-width: 100%; }
 	color: #000;
 }
 
+.form-width {
+	max-width: 12.5rem;
+}
+
 .slds-popover_walkthrough .slds-popover__header,
 .slds-popover--walkthrough .slds-popover__header {
 	background-color: #164a85;
-	background-image: url(/a11y-prototypes/assets/images/popovers/popover-header.png);
+	background-image: url(/assets/images/popovers/popover-header.png);
 	background-repeat: no-repeat;
-	background-position: bottom;
-	background-size: contain;
+	background-position: left;
+	background-size: cover;
 	border-color: inherit;
-	padding: 0.75rem 1rem;
+	padding: 0;
+}
+
+.demo .slds-popover__close {
+	position: absolute;
+	right: .25rem;
+}
+
+.slds-text-heading_medium {
+	padding: .75rem 1rem;
 }
 
 .header_backgroundLightClouds {
-	background-image: url("/a11y-prototypes/assets/images/popovers/cloudsBackground_light-blue.png");
+	background-image: url("/assets/images/popovers/cloudsBackground_light-blue.png");
 	background-repeat: no-repeat;
 	background-position: inherit;
 	background-size: cover;
 	border: none;
-	padding: .75rem 1rem;
 }
 
 .header_backgroundLightClouds2 {
-	background-image: url("/a11y-prototypes/assets/images/popovers/cloudsBackground_light-blue2.png");
+	background-image: url("/assets/images/popovers/cloudsBackground_light-blue2.png");
 	background-repeat: no-repeat;
-	background-position: inherit;
+	background-position: top;
 	background-size: cover;
 	border: none;
-	padding: .75rem 1rem;
 }
 
 /*  TYPOGRAPHY  ============================================================================= */
@@ -74,6 +85,9 @@ img { max-width: 100%; }
 
 .df { display: flex; }
 .df-center { align-items: center; }
+.df-top { align-items: flex-start; }
+.df-bottom { align-items: flex-end; }
+
 .df-stretch { align-items: center; }
 .df-justify { justify-content: space-between; }
 .df-around { justify-content: space-around; }
@@ -96,6 +110,7 @@ img { max-width: 100%; }
 .a-bot { vertical-align: bottom; }
 .wi-full { width: 100%; }
 .ht-full { height: 100%; }
+.ht-inherit { height: inherit; }
 
 .z-above { z-index: 10; }
 .z-top { z-index: 999; }

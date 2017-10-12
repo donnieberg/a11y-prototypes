@@ -3,18 +3,24 @@ import classNames from 'classnames';
 import RadioButtonGroup from 'design-system-react/components/radio-button-group';
 import Radio from 'design-system-react/components/radio-button-group/radio';
 
+import StaticExample from './components/static-example';
+import LiveExample from './components/live-example';
+
 class TextOnImages extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			blur: '4px',
 			border: { width: '1px', style: 'solid', color: '#000'},
-			fontWeight: '300',
+			fontWeight: '400',
 			fontSize: '22.5px',
+			gradient: `0deg, hsla(0, 0%, 0%, 0.8) 0%, hsla(0, 0%, 0%, 0.738) 19%, hsla(0, 0%, 0%, 0.541) 34%, hsla(0, 0%, 0%, 0.382) 47%, hsla(0, 0%, 0%, 0.278) 56.5%, hsla(0, 0%, 0%, 0.194) 65%, hsla(0, 0%, 0%, 0.126) 73%, hsla(0, 0%, 0%, 0.075) 80.2%, hsla(0, 0%, 0%, 0.042) 86.1%, hsla(0, 0%, 0%, 0.021) 91%, hsla(0, 0%, 0%, 0.008) 95.2%, hsla(0, 0%, 0%, 0.002) 98.2%, hsla(0, 0%, 0%, 0) 100%`,
 			hex: '#000',
 			horizontal: '0px',
 			image: 'darkCloudsImage',
+			imageSize: 'small',
 			textColor: '#fff',
+			textPosition: 'center',
 			vertical: '0px'
 		};
 	}
@@ -25,6 +31,22 @@ class TextOnImages extends Component {
 		this.setState( newStateObj);
 	}
 
+	handleGradientChange = (event) => {
+		let color, hex;
+		if (event.target.value == "" && this.state.image !== 'darkCloudsImage') {
+			color = '#000';
+			hex = '#fff';
+		} else {
+			color = '#fff';
+			hex = '#000';
+		}
+		this.setState({
+			gradient: event.target.value,
+			textColor: color,
+			hex: hex
+		})
+	}
+
 	renderImageOptions () {
 		const images = [
 			{ label: 'dark', value: 'darkCloudsImage'},
@@ -32,47 +54,104 @@ class TextOnImages extends Component {
 			{ label: 'bright blue', value: 'lightCloudsImage2'}
 		];
 
+		const imageSizes = [
+			{ label: 'small', value: 'small'},
+			{ label: 'medium', value: 'medium'}
+		];
+
 		const labels = { label: 'Select Background Image' };
 
 		return (
-			<RadioButtonGroup
-				labels={labels}
-				onChange={(event) => this.setState({
-					image: event.target.value,
-					textColor: event.target.value === 'darkCloudsImage' ? '#fff' : '#000',
-					hex: event.target.value === 'darkCloudsImage' ? '#000' : '#fff'
-				})}
-			>
-				{images.map((image) => <Radio
-					checked={this.state.image === image.value}
-					id={image.value}
-					key={image.value}
-					label={image.label}
-					value={image.value}
-					variant="button-group" />)}
-			</RadioButtonGroup>
+			<fieldset className="slds-form-element">
+				<div className="dib">
+					<legend className="slds-form-element__legend slds-form-element__label">Image</legend>
+					<div className="slds-form-element__control">
+						{	images.map((image) => <Radio
+							checked={this.state.image === image.value}
+							id={image.value}
+							key={image.value}
+							label={image.label}
+							onChange={(event) => {
+								let color, hex;
+								if (event.target.value !== 'darkCloudsImage' && this.state.gradient === "") {
+									color = '#000';
+									hex = '#fff';
+								} else {
+									color = '#fff';
+									hex = '#000';
+								}
+								this.setState({
+									image: event.target.value,
+									textColor: color,
+									hex: hex
+								})
+							}}
+								value={image.value}
+						/>)
+						}
+					</div>
+				</div>
+				<div className="dib mll">
+					<legend className="ptm slds-form-element__legend slds-form-element__label">Image Size</legend>
+					<div className="slds-form-element__control">
+						{	imageSizes.map((size) => <Radio
+							checked={this.state.imageSize === size.value}
+							id={size.value}
+							key={size.value}
+							label={size.label}
+							onChange={(event) => this.setState({
+								imageSize: event.target.value,
+							})}
+							value={size.value}
+						/>)
+						}
+					</div>
+				</div>
+			</fieldset>
 		)
 	}
 
 	render() {
-		const headingStyle = {
-			'color': this.state.textColor,
-			'fontWeight': this.state.fontWeight,
-			'fontSize': this.state.fontSize,
-			'textShadow': `${this.state.horizontal} ${this.state.vertical} ${this.state.blur} ${this.state.hex}`
-		};
-
 		return (
 			<div className="df df-start">
+				<section>
 				<aside>
-					<h1 className="f4 fw-bold caps pvm">Edit Text Shadow</h1>
-					<ul>
-						<li className="pvs">
-							<div className="slds-form-element">
-								{this.renderImageOptions()}
+					<div className="pvs">
+						<h1 className="f5 fw-bold caps pvm">Edit Cloud Image</h1>
+						<div className="slds-form-element">
+							{this.renderImageOptions()}
+						</div>
+					</div>
+					<div className="pvs">
+						<h1 className="f5 fw-bold caps ptm">Edit Header Position</h1>
+						<div className="slds-form-element">
+							<label className="slds-form-element__label slds-assistive-text" htmlFor="textPosition">Header Position</label>
+							<div className="slds-form-element__control">
+								<select id="textPosition" onChange={this.handleInputChange} placeholder="Select position" value={this.state.textPosition}>
+									<option value="top">top</option>
+									<option value="center">center</option>
+									<option value="bottom">bottom</option>
+								</select>
 							</div>
-						</li>
-						<li className="pvs">
+						</div>
+					</div>
+					<div className="pvs">
+						<h1 className="f5 fw-bold caps pvm">Edit Gradient Mask</h1>
+						<button className="slds-button slds-button_brand f5 mvs" onClick={() => this.setState({ gradient: ''})}>Clear Gradient</button>
+						<div className="slds-form-element">
+							<textarea
+								className="slds-input"
+								id="gradient"
+								onChange={this.handleGradientChange}
+								placeholder="Enter in linear gradient"
+								type="text"
+								value={this.state.gradient}
+							/>
+						</div>
+					</div>
+					<h1 className="f5 fw-bold caps ptl">Edit Text Shadow</h1>
+					<ul>
+						<li className="dib pvs">
 							<div className="slds-form-element">
 								<label className="slds-form-element__label" htmlFor="horizontal">Horizontal Shadow</label>
 								<div className="slds-form-element__control">
@@ -87,7 +166,7 @@ class TextOnImages extends Component {
 								</div>
 							</div>
 						</li>
-						<li className="pvs">
+						<li className="dib pvs">
 							<div className="slds-form-element">
 								<label className="slds-form-element__label" htmlFor="vertical">Vertical Shadow</label>
 								<div className="slds-form-element__control">
@@ -102,7 +181,7 @@ class TextOnImages extends Component {
 								</div>
 							</div>
 						</li>
-						<li className="pvs">
+						<li className="dib pvs">
 							<div className="slds-form-element">
 								<label className="slds-form-element__label" htmlFor="blur">Blur Shadow</label>
 								<div className="slds-form-element__control">
@@ -117,7 +196,7 @@ class TextOnImages extends Component {
 								</div>
 							</div>
 						</li>
-						<li className="pvs">
+						<li className="dib pvs">
 							<div className="slds-form-element">
 								<label className="slds-form-element__label" htmlFor="hex">Text Shadow Color (Hex Value)</label>
 								<div className="slds-form-element__control">
@@ -133,8 +212,8 @@ class TextOnImages extends Component {
 							</div>
 						</li>
 					</ul>
-					<ul className="mtm">
-						<h1 className="f4 fw-bold caps pvm">Edit Font Values</h1>
+					<ul className="form-width">
+						<h1 className="f5 fw-bold caps ptl">Edit Font Values</h1>
 						<li className="pvs">
 							<div className="slds-form-element">
 								<label className="slds-form-element__label" htmlFor="textColor">Text Color (Hex Value)</label>
@@ -146,6 +225,21 @@ class TextOnImages extends Component {
 										placeholder="Enter in Hex value"
 										type="text"
 										value={this.state.textColor}
+									/>
+								</div>
+							</div>
+						</li>
+						<li className="pvs">
+							<div className="slds-form-element">
+								<label className="slds-form-element__label" htmlFor="fontSize">Font Size</label>
+								<div className="slds-form-element__control">
+									<input
+										className="slds-input"
+										id="fontSize"
+										onChange={this.handleInputChange}
+										placeholder="Enter in # value"
+										type="text"
+										value={this.state.fontSize}
 									/>
 								</div>
 							</div>
@@ -168,78 +262,29 @@ class TextOnImages extends Component {
 								</div>
 							</div>
 						</li>
-						<li className="pvs">
-							<div className="slds-form-element">
-								<label className="slds-form-element__label" htmlFor="fontSize">Font Size</label>
-								<div className="slds-form-element__control">
-									<input
-										className="slds-input"
-										id="fontSize"
-										onChange={this.handleInputChange}
-										placeholder="Enter in # value"
-										type="text"
-										value={this.state.fontSize}
-									/>
-								</div>
-							</div>
-						</li>
 					</ul>
 				</aside>
+				</section>
 				<main className="df df-start">
-					<div>
-						<h1 className="f4 fw-bold caps tac pvm">Live Demo Component</h1>
-						<section className="mlx slds-popover slds-popover_walkthrough slds-nubbin_left" role="dialog" aria-labelledby="dialog-heading-id-01" aria-describedby="dialog-body-id-11">
-							<button className="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title="Close dialog">
-								<svg className="slds-button__icon" aria-hidden="true">
-									<use xlinkHref="./assets/icons/utility-sprite/svg/symbols.svg#close" />
-								</svg>
-								<span className="slds-assistive-text">Close dialog</span>
-							</button>
-							<header className={classNames("slds-p-vertical_medium", {
-								"slds-popover__header": this.state.image === "darkCloudsImage",
-								"header_backgroundLightClouds": this.state.image === "lightCloudsImage",
-								"header_backgroundLightClouds2": this.state.image === "lightCloudsImage2"
-							})}>
-							<h2 id="dialog-heading-id-01" className="slds-text-heading_medium" style={headingStyle}>Manage your channels</h2>
-						</header>
-						<div className="slds-popover__body" id="dialog-body-id-11">
-							<p className="f5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-						<footer className="slds-popover__footer">
-							<div className="slds-grid slds-grid_vertical-align-center">
-								<span className="slds-text-title">Step 2 of 4</span>
-								<button className="slds-button slds-button_brand slds-col_bump-left">Next</button>
-							</div>
-						</footer>
-					</section>
-				</div>
-				<div>
-					<h1 className="f4 fw-bold caps tac pvm">Original</h1>
-					<section className="mlx slds-popover slds-popover_walkthrough slds-nubbin_left" role="dialog" aria-labelledby="dialog-heading-id-02" aria-describedby="dialog-body-id-12">
-						<button className="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title="Close dialog">
-							<svg className="slds-button__icon" aria-hidden="true">
-								<use xlinkHref="./assets/icons/utility-sprite/svg/symbols.svg#close" />
-							</svg>
-							<span className="slds-assistive-text">Close dialog</span>
-						</button>
-						<header className={classNames("slds-p-vertical_medium", {
-								"slds-popover__header": this.state.image === "darkCloudsImage",
-								"header_backgroundLightClouds": this.state.image === "lightCloudsImage",
-								"header_backgroundLightClouds2": this.state.image === "lightCloudsImage2"
-							})} style={{ color: this.state.textColor }}>
-							<h2 id="dialog-heading-id-01" className="slds-text-heading_medium">Manage your channels</h2>
-						</header>
-						<div className="slds-popover__body" id="dialog-body-id-11">
-							<p className="f5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-						<footer className="slds-popover__footer">
-							<div className="slds-grid slds-grid_vertical-align-center">
-								<span className="slds-text-title">Step 2 of 4</span>
-								<button className="slds-button slds-button_brand slds-col_bump-left">Next</button>
-							</div>
-						</footer>
-					</section>
-				</div>
+				<LiveExample
+					blur={this.state.blur}
+					fontSize={this.state.fontSize}
+					fontWeight={this.state.fontWeight}
+					gradient={this.state.gradient}
+					hex={this.state.hex}
+					horizontal={this.state.horizontal}
+					image={this.state.image}
+					imageSize={this.state.imageSize}
+					textColor={this.state.textColor}
+					textPosition={this.state.textPosition}
+					vertical={this.state.vertical}
+				/>
+				<StaticExample
+					image={this.state.image}
+					imageSize={this.state.imageSize}
+					textColor={this.state.textColor}
+					textPosition={this.state.textPosition}
+				/>
 			</main>
 		</div>
 		);
