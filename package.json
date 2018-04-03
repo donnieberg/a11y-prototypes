@@ -8,6 +8,8 @@
 		"design-system-react": "git+ssh://git@github.com:salesforce-ux/design-system-react.git#v0.8.10",
 		"gh-pages": "^1.1.0",
 		"history": "^4.7.2",
+		"lodash.escaperegexp": "^4.1.2",
+		"lodash.isfunction": "^3.0.9",
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
 		"react-router": "^4.2.0",

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FeedItem from './components/feed-item';
 import FeedComment from './components/feed-comment';
+import KeyboardNavigable from '../../utilities/keyboard-navigable';
 
 class Feeds extends Component {
 	constructor(props) {
