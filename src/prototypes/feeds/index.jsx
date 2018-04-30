@@ -50,8 +50,10 @@ class Feeds extends Component {
 				currentFocusedIndex: prevState.currentFocusedIndex - 1
 			}));
 		} else if (moveBeforeFeed) {
+			console.log('focus first element before feed');
 			this.firstFocusableLink.current.focus();
 		} else if (moveAfterFeed) {
+			console.log('focus first element after feed');
 			this.lastFocusableLink.current.focus();
 		} else {
 			console.log('more tabbin or some other key we dont care about');
@@ -69,7 +71,8 @@ class Feeds extends Component {
 		return (
 			<div className="slds-feed">
 				<a href="javascript:void(0)" ref={this.firstFocusableLink}>Focusable thang before feed</a>
-				<ul className="slds-feed__list" role="feed" aria-busy={this.state.isLoading}>
+				<h1 id="feeds-header">Chatter</h1>
+				<ul aria-labelledby="feeds-header" className="slds-feed__list" role="feed" aria-busy={this.state.isLoading}>
 					{this.state.posts.map((post, i) => {
 						return (
 							<li

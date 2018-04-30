@@ -23,7 +23,7 @@ class FeedItem extends Component {
 			<article
 				aria-describedby={`feedItem${i}-label2 feedItem${i}-label3`}
 				aria-labelledby={`feedItem${i}-label1`}
-				aria-posinset={i}
+				aria-posinset={i + 1}
 				aria-setsize={totalPosts}
 				className="slds-post"
 				data-type="feedItem"
