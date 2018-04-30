@@ -10,14 +10,31 @@ class FeedItem extends Component {
 
 	render() {
 		const {
+			active,
 			content,
+			events,
+			handleKeyUp,
 			i,
 			totalPosts,
 			user,
 		} = this.props;
 
 		return (
-			<article className="slds-post" tabindex="0" aria-labelledby={`feedItem${i}-label1`} aria-describedby={`feedItem${i}-label2 feedItem${i}-label3`} aria-setsize={totalPosts} aria-posinset={i}>
+			<article
+				aria-describedby={`feedItem${i}-label2 feedItem${i}-label3`}
+				aria-labelledby={`feedItem${i}-label1`}
+				aria-posinset={i}
+				aria-setsize={totalPosts}
+				className="slds-post"
+				data-type="feedItem"
+				onKeyUp={handleKeyUp}
+				ref={(component) => {
+					if (active) {
+						events.onRequestFocus(undefined, { ref: component });
+					}
+				}}
+				tabIndex={i === 0 ? "0" : "-1"}
+			>
 				<header className="slds-post__header slds-media">
 					<div className="slds-media__figure">
 						<a href="javascript:void(0);" className="slds-avatar slds-avatar_circle slds-avatar_large">

@@ -1,4 +1,7 @@
 const keys = {
+	CONTROL: 17,
+	END: 35,
+	HOME: 36,
 	ENTER: 13,
 	ESCAPE: 27,
 	SPACE: 32,
@@ -8,7 +11,9 @@ const keys = {
 	DOWN: 40,
 	TAB: 9,
 	DELETE: 46,
-	BACKSPACE: 8
+	BACKSPACE: 8,
+	PAGE_DOWN: 34,
+	PAGE_UP: 33
 };
 
 // Helpful for interaction/event tests. Use with simulate:
