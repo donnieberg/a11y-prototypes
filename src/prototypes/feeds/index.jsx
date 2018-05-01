@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, ButtonIcon } from 'design-system-react';
 import FeedItem from './components/feed-item';
 import FeedComment from './components/feed-comment';
 
@@ -15,7 +16,11 @@ class Feeds extends Component {
 		this.state = {
 			isLoading: false,
 			posts: [
-				{ user: 'Ron Johnson', content: "Hey there! Here is the latest demo presentation  let me know if there are any changes. I updated slides 3-8 and slides 16-18 slides with new product shots." },
+				{ user: 'Ron Johnson', content: "Hey there! Here is the latest demo presentation  let me know if there are any changes. I updated slides 3-8 and slides 16-18 slides with new product shots.", comments: [
+					{ user: 'Denise Huxtable', content: "Thanks for letting us know, Ron! New product shots look great." },
+					{ user: 'Jaleesa Vinson-Taylor', content: "Thanks for letting us know, Ron! New product shots look great." },
+					{ user: 'Freddie Brooks', content: "Thanks for letting us know, Ron! New product shots look great." }
+				] },
 				{ user: "Dwayne Wayne", content: "Hey there! Here is the latest demo presentation  let me know if there are any changes. I updated slides 3-8 and slides 16-18 slides with new product shots." },
 				{ user: "Whitley Gilbert", content: "Hey there! Here is the latest demo presentation  let me know if there are any changes. I updated slides 3-8 and slides 16-18 slides with new product shots." },
 				{ user: "Kim Reese", content: "Hey there! Here is the latest demo presentation  let me know if there are any changes. I updated slides 3-8 and slides 16-18 slides with new product shots." }
@@ -60,11 +65,55 @@ class Feeds extends Component {
 		}
 	}
 
-	handleRequestFocusListboxOfPills = (event, { ref }) => {
+	handleFocusFeedItem = (event, { ref }) => {
 		if (ref) {
 			this.activeItem = ref;
 			this.activeItem.focus();
 		}
+	}
+
+	renderCommentPublisher () {
+		return (
+			<div class="slds-media slds-comment slds-hint-parent">
+				<div class="slds-media__figure">
+					<a class="slds-avatar slds-avatar_circle slds-avatar_medium" href="javascript:void(0);">
+						<img alt="Person name" src="/assets/images/avatar2.jpg" title="User avatar" />
+					</a>
+				</div>
+				<div class="slds-media__body">
+					<div class="slds-publisher slds-publisher_comment">
+						<label for="comment-text-input-01" class="slds-assistive-text">Write a comment</label>
+						<textarea id="comment-text-input-01" class="slds-publisher__input slds-input_bare slds-text-longform" placeholder="Write a comment…"></textarea>
+						<div class="slds-publisher__actions slds-grid slds-grid_align-spread">
+							<ul class="slds-grid">
+								<li>
+									<ButtonIcon name="add_user" assistiveText="Add user" />
+								</li>
+								<li>
+									<ButtonIcon name="attach" assistiveText="Attach" />
+								</li>
+							</ul>
+							<Button label="Comment" variant="brand" />
+						</div>
+					</div>
+				</div>
+			</div>
+		)
+	}
+
+	renderComments (post) {
+		const lastCommentIndex = post.comments.length - 1;
+		return (
+			<div className="slds-feed__item-comments">
+				<ul>
+					{ post.comments.map((comment, i) => {
+						return <FeedComment user={comment.user} content={comment.content} />;
+					})}
+				</ul>
+
+				{ this.renderCommentPublisher() }
+			</div>
+		)
 	}
 
 	render() {
@@ -72,7 +121,12 @@ class Feeds extends Component {
 			<div className="slds-feed">
 				<a href="javascript:void(0)" ref={this.firstFocusableLink}>Focusable thang before feed</a>
 				<h1 id="feeds-header">Chatter</h1>
-				<ul aria-labelledby="feeds-header" className="slds-feed__list" role="feed" aria-busy={this.state.isLoading}>
+				<ul
+					aria-busy={this.state.isLoading}
+					aria-labelledby="feeds-header"
+					className="slds-feed__list"
+					role="feed"
+				>
 					{this.state.posts.map((post, i) => {
 						return (
 							<li
@@ -86,13 +140,19 @@ class Feeds extends Component {
 									active={this.state.currentFocusedIndex === i}
 									content={post.content}
 									events={{
-										onRequestFocus: this.handleRequestFocusListboxOfPills
+										onRequestFocus: this.handleFocusFeedItem
 									}}
 									i={i}
 									handleKeyUp={this.handleKeyUp}
 									totalPosts={this.state.posts.length}
 									user={post.user}
 								/>
+
+								{ post.comments
+										? this.renderComments(post)
+										: null
+								}
+
 							</li>
 						)
 					})}
