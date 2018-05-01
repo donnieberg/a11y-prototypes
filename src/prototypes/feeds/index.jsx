@@ -77,7 +77,7 @@ class Feeds extends Component {
 			<div class="slds-media slds-comment slds-hint-parent">
 				<div class="slds-media__figure">
 					<a class="slds-avatar slds-avatar_circle slds-avatar_medium" href="javascript:void(0);">
-						<img alt="Person name" src="/assets/images/avatar2.jpg" title="User avatar" />
+						<img alt="Person name" src="./assets/images/avatar2.jpg" title="User avatar" />
 					</a>
 				</div>
 				<div class="slds-media__body">

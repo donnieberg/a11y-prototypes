@@ -19,7 +19,7 @@ class FeedComment extends Component {
 				<article className="slds-comment slds-media slds-hint-parent">
 					<div className="slds-media__figure">
 						<a href="javascript:void(0);" className="slds-avatar slds-avatar_circle slds-avatar_medium">
-							<img alt={user} src="/assets/images/avatar2.jpg" title={`${user} Avatar`} />
+							<img alt={user} src="./assets/images/avatar2.jpg" title={`${user} Avatar`} />
 						</a>
 					</div>
 					<div className="slds-media__body">

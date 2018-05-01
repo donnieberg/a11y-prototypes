@@ -38,7 +38,7 @@ class FeedItem extends Component {
 				<header className="slds-post__header slds-media">
 					<div className="slds-media__figure">
 						<a href="javascript:void(0);" className="slds-avatar slds-avatar_circle slds-avatar_large">
-							<img alt={user} src="/assets/images/avatar1.jpg" title={`${user} avatar`} />
+							<img alt={user} src="./assets/images/avatar1.jpg" title={`${user} avatar`} />
 						</a>
 					</div>
 					<div className="slds-media__body">
