@@ -15,8 +15,7 @@ const keys = {
 	PAGE_DOWN: 34,
 	PAGE_UP: 33,
 	J: 74,
-	K: 75,
-	I: 73,
+	K: 75
 };
 
 // Helpful for interaction/event tests. Use with simulate:

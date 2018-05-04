@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonIcon } from 'design-system-react';
 import FeedPost from './components/feed-post';
+
 import FeedComment from './components/feed-comment';
 
 import EventUtil from '../../utilities/event';
@@ -34,118 +35,74 @@ class Feeds extends Component {
 		const currentFocusedPostIndex = this.state.currentFocus.post;
 		const currentFocusedCommentIndex = this.state.currentFocus.comment;
 		const lastPostIndex = this.state.posts.length - 1;
+		const lastCommentIndex = currentFocusedPostIndex !== null && this.state.posts[currentFocusedPostIndex].comments ? this.state.posts[currentFocusedPostIndex].comments.length - 1 : null;
 
-		// Post: page_down
+		// Tab init focus
+		const initFocus = currentFocusedPostIndex === null
+			&& e.keyCode === KeyCodes.TAB;
+
+		// Next Post: J
 		const moveNextPost = typeof(currentFocusedPostIndex) === 'number'
-			&& e.keyCode === KeyCodes.DOWN
+			&& !e.shiftKey && e.keyCode === KeyCodes.J
 			&& currentFocusedPostIndex < lastPostIndex;
 
-		// Post: page_up
+		// Prev Post: K
 		const movePrevPost = typeof(currentFocusedPostIndex) === 'number'
-			&& e.keyCode === KeyCodes.UP
+			&& !e.shiftKey && e.keyCode === KeyCodes.K
 			&& currentFocusedPostIndex > 0;
 
-		// 1st Comment only: alt + page_down
-		const jumpFirstComment = typeof(currentFocusedPostIndex) === 'number'
-			&& e.keyCode === KeyCodes.J
-			&& this.state.posts[currentFocusedPostIndex].comments;
+		// Next Comment: Shift + J
+		const moveNextComment = typeof(currentFocusedPostIndex) === 'number'
+			&& e.shiftKey && e.keyCode === KeyCodes.J
+		  && currentFocusedCommentIndex < lastCommentIndex;
 
-		// Post: cntrl + home
+		// Prev Comment: Shift + K
+		const movePrevComment = typeof(currentFocusedPostIndex) === 'number'
+			&& e.shiftKey && e.keyCode === KeyCodes.K
+			&& currentFocusedCommentIndex > 0;
+
+		// Prev Element before Feed: cntrl + home
 		const jumpBeforeFeed = typeof(currentFocusedPostIndex) === 'number'
-			&& e.keyCode === KeyCodes.I;
+			&& e.ctrlKey && e.keyCode === KeyCodes.HOME;
 
-		// Key Codes --------------------------------------
-		// ------------------------------------------------
-		// General Tabbing around
-		if (e.keyCode === KeyCodes.TAB) {
-			console.log('tab');
-			if (currentFocusedPostIndex === null) {
-				this.setState((prevState, props) => ({
-					currentFocus: { post: 0, comment: null }
-				}));
-			}
-		// Jump to next focusable feed: cntrl + end
-		} else if (e.keyCode === KeyCodes.K) {
-			if (typeof(currentFocusedCommentIndex) === 'number') {
-				// if inside comments, move to next feed post
-				console.log('jump to next article in outer feed');
-				this.setState((prevState, props) => ({
-					currentFocus: { post: prevState.currentFocus.post + 1, comment: null }
-				}));
-			} else {
-				// move after feed
-				console.log('jump after feed');
-				this.lastFocusableLink.current.focus();
-			}
-		} else if (e.keyCode === KeyCodes.DOWN) {
-			console.log('page down');
-			// Move down posts: Page down
-			if (typeof(currentFocusedCommentIndex) !== 'number') {
-				if (currentFocusedPostIndex < lastPostIndex) {
-					this.setState((prevState, props) => ({
-						currentFocus: { post: prevState.currentFocus.post + 1 , comment: null }
-					}));
-				}
-			} else {
-				// Move down comments: Page down
-				if (currentFocusedCommentIndex < this.state.posts[currentFocusedPostIndex].comments.length - 1) {
-					this.setState((prevState, props) => ({
-						currentFocus: { post: prevState.currentFocus.post, comment: prevState.currentFocus.comment + 1 }
-					}));
-				}
-			}
-		} else if (movePrevPost) {
-			console.log('prev post');
-			this.setState((prevState, props) => ({
-				currentFocus: { post: prevState.currentFocus.post - 1 , comment: null }
-			}));
+		// Next Element after Feed: cntrl + end
+		const jumpAfterFeed = typeof(currentFocusedPostIndex) === 'number'
+			&& e.ctrlKey && e.keyCode === KeyCodes.END;
+
 		// Instructions --------------------------------------
-		// ------------------------------------------------
-		} else if (jumpFirstComment) {
-			console.log('jump to first comment inside nested feed');
-			this.setState((prevState, props) => ({
-				currentFocus: { post: prevState.currentFocus.post, comment: 0 }
-			}));
-		} else if (jumpBeforeFeed) {
-			console.log('jump before feed');
-			this.firstFocusableLink.current.focus();
-		} else {
-			console.log('nope');
-		}
-
-
-		/*
-		const initFocus = this.state.currentFocus.post === null && e.keyCode === KeyCodes.TAB && e.target.dataset.type === 'feedPost';
-		const moveNext = typeof(this.state.currentFocus.post) === 'number' && e.keyCode === KeyCodes.PAGE_DOWN && this.state.currentFocus.post < lastIndex;
-		const movePrev = typeof(this.state.currentFocus.post) === 'number' && e.keyCode === KeyCodes.PAGE_UP && this.state.currentFocus.post > 0;
-		const moveBeforeFeed = e.ctrlKey && e.keyCode === KeyCodes.HOME;
-		const moveAfterFeed = e.ctrlKey && e.keyCode === KeyCodes.END;
-
 		if (initFocus) {
-			console.log('initial tab');
 			this.setState((prevState, props) => ({
 				currentFocus: { post: 0, comment: null }
 			}));
-		} else if (moveNext) {
-			console.log('down');
+		} else if (jumpAfterFeed) {
+			this.lastFocusableLink.current.focus();
+		} else if (jumpBeforeFeed) {
+			this.firstFocusableLink.current.focus();
+		} else if (moveNextPost) {
 			this.setState((prevState, props) => ({
 				currentFocus: { post: prevState.currentFocus.post + 1 , comment: null }
 			}));
-		} else if (movePrev) {
-			console.log('up');
+		} else if (movePrevPost) {
 			this.setState((prevState, props) => ({
 				currentFocus: { post: prevState.currentFocus.post - 1 , comment: null }
 			}));
-		} else if (moveBeforeFeed) {
-			console.log('focus first element before feed');
-			this.firstFocusableLink.current.focus();
-		} else if (moveAfterFeed) {
-			console.log('focus first element after feed');
-			this.lastFocusableLink.current.focus();
+		} else if (moveNextComment) {
+			if (currentFocusedCommentIndex === null) {
+				this.setState((prevState, props) => ({
+					currentFocus: { post: prevState.currentFocus.post, comment: 0 }
+				}));
+			} else {
+				this.setState((prevState, props) => ({
+					currentFocus: { post: prevState.currentFocus.post, comment: prevState.currentFocus.comment + 1 }
+				}));
+			}
+		} else if (movePrevComment) {
+			this.setState((prevState, props) => ({
+				currentFocus: { post: prevState.currentFocus.post, comment: prevState.currentFocus.comment - 1 }
+			}));
 		} else {
-			console.log('more tabbin or some other key we dont care about');
+			console.log('nope');
 		}
-		*/
 	}
 
 	handleFocusFeedPost = (event, { ref }) => {
@@ -188,20 +145,28 @@ class Feeds extends Component {
 		const lastCommentIndex = post.comments.length - 1;
 		return (
 			<div className="slds-feed__item-comments">
-				<ul>
+				<h2 id={`feedPost${postIndex}-comments`} className="slds-assistive-text">{`${post.comments.length} Comments to Post ${postIndex}`}</h2>
+				<ul
+					aria-busy={this.state.isLoading}
+					aria-labelledby={`feedPost${postIndex}-comments`}
+					role="feed"
+				>
 					{ post.comments.map((comment, i) => {
 						return (
-							<FeedComment
-								active={this.state.currentFocus.post === postIndex && this.state.currentFocus.comment === i}
-								content={comment.content}
-								events={{
-									onRequestFocus: this.handleFocusFeedPost
-								}}
-								handleKeyUp={this.handleKeyUp}
-								i={i}
-								totalComments={post.comments.length - 1}
-								user={comment.user}
-							/>
+							<li key={`feedPost${postIndex}-feedComment${i}`}>
+								<FeedComment
+									active={this.state.currentFocus.post === postIndex && this.state.currentFocus.comment === i}
+									content={comment.content}
+									events={{
+										onRequestFocus: this.handleFocusFeedPost
+									}}
+									handleKeyUp={this.handleKeyUp}
+									i={i}
+									postIndex={postIndex}
+									totalComments={post.comments.length}
+									user={comment.user}
+								/>
+							</li>
 						)
 					})}
 				</ul>
@@ -211,48 +176,102 @@ class Feeds extends Component {
 		)
 	}
 
+	renderMoreComments () {
+		return (
+			<div className="slds-feed__item-comments">
+				<div id="moreCommentsContainer" className="slds-p-horizontal_medium slds-p-vertical_x-small slds-grid">
+					<button className="slds-button_reset slds-text-link">More comments</button>
+					<span className="slds-text-body_small slds-col_bump-left">1 of 8</span>
+				</div>
+				<ul>
+					<li>
+						<article className="slds-comment slds-media slds-hint-parent">
+							<div className="slds-media__figure">
+								<a href="javascript:void(0);" className="slds-avatar slds-avatar_circle slds-avatar_medium">
+									<img alt="Jenna Davis" src="/assets/images/avatar2.jpg" title="Jenna Davis avatar" />
+								</a>
+							</div>
+							<div className="slds-media__body">
+								<header className="slds-media slds-media_center">
+									<div className="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+										<p className="slds-truncate" title="Jenna Davis"><a href="javascript:void(0);">Jenna Davis</a></p>
+										<ButtonIcon name="more" assistiveText="More options" />
+									</div>
+								</header>
+								<div className="slds-comment__content slds-text-longform">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+								<footer>
+									<ul className="slds-list_horizontal slds-has-dividers_right slds-text-body_small">
+										<li className="slds-item">
+											<button className="slds-button_reset slds-text-color_weak" title="Like this item" aria-pressed="false">Like</button>
+										</li>
+										<li className="slds-item">16hr Ago</li>
+									</ul>
+								</footer>
+							</div>
+						</article>
+					</li>
+				</ul>
+			</div>
+		)
+	}
+
 	render() {
 		return (
-			<div className="slds-feed">
-				<a href="javascript:void(0)" ref={this.firstFocusableLink}>Focusable thang before feed</a>
-				<h1 id="feeds-header">Chatter</h1>
-				<ul
-					aria-busy={this.state.isLoading}
-					aria-labelledby="feeds-header"
-					className="slds-feed__list"
-					role="feed"
-				>
-					{this.state.posts.map((post, i) => {
-						return (
-							<li
-								className="slds-feed__item"
-								data-index={i}
-								id={`feedItem-${i}`}
-								key={i}
-								role="presentation"
-							>
-								<FeedPost
-									active={this.state.currentFocus.post === i}
-									content={post.content}
-									events={{
-										onRequestFocus: this.handleFocusFeedPost
-									}}
-									handleKeyUp={this.handleKeyUp}
-									i={i}
-									totalPosts={this.state.posts.length}
-									user={post.user}
-								/>
+			<div>
+				<ol>
+					<li>1. Page Down: Move focus to next article.</li>
+					<li>2. Page Up: Move focus to previous article.</li>
+					<li>3. Control + End: Move focus to the first focusable element after the feed or if you're inside nested feed, moves focus to the next article in the outer feed..</li>
+					<li>4. Control + Home: Move focus to the first focusable element before the feed.</li>
+					<li>5. Alt + Page Down (J for now): Move focus from the elements in the containing article to the first item in the nested feed.</li>
+				</ol>
+				<div>
+					<a href="https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/#feed" ref={this.firstFocusableLink}>Aria Feeds Spec</a>
+					<div className="slds-feed">
+						<h1 id="feeds-header">Chatter</h1>
+						<ul
+							aria-busy={this.state.isLoading}
+							aria-labelledby="feeds-header"
+							className="slds-feed__list"
+							role="feed"
+						>
+							{this.state.posts.map((post, i) => {
+								return (
+									<li
+										className="slds-feed__item"
+										key={`feedPost${i}`}
+										role="presentation"
+									>
+										<FeedPost
+											active={this.state.currentFocus.post === i}
+											content={post.content}
+											events={{
+												onRequestFocus: this.handleFocusFeedPost
+											}}
+											handleKeyUp={this.handleKeyUp}
+											i={i}
+											totalComments={post.comments ? post.comments.length : 0}
+											totalPosts={this.state.posts.length}
+											user={post.user}
+										/>
 
-								{ post.comments
-										? this.renderComments(post, i)
-										: null
-								}
+									{ post.comments
+											? this.renderComments(post, i)
+											: null
+									}
 
-							</li>
-						)
-					})}
-				</ul>
-				<a href="javascript:void(0)" ref={this.lastFocusableLink}>Focusable thang after feed</a>
+									{ i === this.state.posts.length - 1
+											? this.renderMoreComments()
+											: null
+									}
+
+								</li>
+								)
+							})}
+						</ul>
+						<a href="javascript:void(0)" ref={this.lastFocusableLink}>Focusable thang after feed</a>
+					</div>
+				</div>
 			</div>
 		)
 	}

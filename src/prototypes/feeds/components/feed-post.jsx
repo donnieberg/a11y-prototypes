@@ -15,14 +15,15 @@ class FeedPost extends Component {
 			events,
 			handleKeyUp,
 			i,
+			totalComments,
 			totalPosts,
 			user,
 		} = this.props;
 
 		return (
 			<article
-				aria-describedby={`feedItem${i}-label2 feedItem${i}-label3`}
-				aria-labelledby={`feedItem${i}-label1`}
+				aria-describedby={`feedPost${i}-label4`}
+				aria-labelledby={`feedPost${i}-label1 feedPost${i}-label2 feedPost${i}-label3`}
 				aria-posinset={i + 1}
 				aria-setsize={totalPosts}
 				className="slds-post"
@@ -33,7 +34,7 @@ class FeedPost extends Component {
 						events.onRequestFocus(undefined, { ref: component });
 					}
 				}}
-				tabIndex={i === 0 ? "0" : "-1"}
+				tabIndex="0"
 			>
 				<header className="slds-post__header slds-media">
 					<div className="slds-media__figure">
@@ -43,14 +44,14 @@ class FeedPost extends Component {
 					</div>
 					<div className="slds-media__body">
 						<div className="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
-							<p id={`feedItem${i}-label1`}><a href="javascript:void(0);" title={user}>{user}</a> — <a href="javascript:void(0);" title="Design Systems">Design Systems</a></p>
+							<p id={`feedPost${i}-label1`}><a href="javascript:void(0);" title={user}>{user}</a> — <a href="javascript:void(0);" title="Design Systems">Design Systems</a></p>
 							<ButtonIcon name="down" assistiveText="More Options" />
 						</div>
-						<p id={`feedItem${i}-label2`} className="slds-text-body_small"><a href="javascript:void(0);" title="Click for single-item view of this post" className="slds-text-link_reset">5 days Ago</a></p>
+						<p id={`feedPost${i}-label2`} className="slds-text-body_small"><a href="javascript:void(0);" title="Click for single-item view of this post" className="slds-text-link_reset">5 days Ago</a></p>
 					</div>
 				</header>
 				<div className="slds-post__content slds-text-longform">
-					<p id={`feedItem${i}-label3`}>{content}</p>
+					<p id={`feedPost${i}-label4`}>{content}</p>
 				</div>
 				<footer className="slds-post__footer">
 					<ul className="slds-post__footer-actions-list slds-list_horizontal">
@@ -67,6 +68,7 @@ class FeedPost extends Component {
 					<ul className="slds-post__footer-meta-list slds-list_horizontal slds-has-dividers_right slds-text-title">
 						<li className="slds-item">20 shares</li>
 						<li className="slds-item">259 views</li>
+						<li id={`feedPost${i}-label3`} className="slds-assistive-text">{`${totalComments} Comments`}</li>
 					</ul>
 				</footer>
 			</article>
