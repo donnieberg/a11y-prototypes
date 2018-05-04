@@ -13,7 +13,10 @@ const keys = {
 	DELETE: 46,
 	BACKSPACE: 8,
 	PAGE_DOWN: 34,
-	PAGE_UP: 33
+	PAGE_UP: 33,
+	J: 74,
+	K: 75,
+	I: 73,
 };
 
 // Helpful for interaction/event tests. Use with simulate:

@@ -10,13 +10,32 @@ class FeedComment extends Component {
 
 	render() {
 		const {
+			active,
+			content,
+			events,
+			handleKeyUp,
+			i,
+			totalComments,
 			user,
-			content
 		} = this.props;
 
 		return (
 			<li>
-				<article className="slds-comment slds-media slds-hint-parent">
+				<article
+					aria-describedby={`feedItem${i}-label2 feedItem${i}-label3`}
+					aria-labelledby={`feedItem${i}-label1`}
+					aria-posinset={i + 1}
+					aria-setsize={totalComments}
+					className="slds-comment slds-media slds-hint-parent"
+					data-type="feedComment"
+					onKeyUp={handleKeyUp}
+					ref={(component) => {
+						if (active) {
+							events.onRequestFocus(undefined, { ref: component });
+						}
+					}}
+					tabIndex="-1"
+				>
 					<div className="slds-media__figure">
 						<a href="javascript:void(0);" className="slds-avatar slds-avatar_circle slds-avatar_medium">
 							<img alt={user} src="./assets/images/avatar2.jpg" title={`${user} Avatar`} />

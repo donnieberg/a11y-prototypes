@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ButtonIcon } from 'design-system-react';
 
-class FeedItem extends Component {
+class FeedPost extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -26,7 +26,7 @@ class FeedItem extends Component {
 				aria-posinset={i + 1}
 				aria-setsize={totalPosts}
 				className="slds-post"
-				data-type="feedItem"
+				data-type="feedPost"
 				onKeyUp={handleKeyUp}
 				ref={(component) => {
 					if (active) {
@@ -74,4 +74,4 @@ class FeedItem extends Component {
 	}
 }
 
-export default FeedItem;
+export default FeedPost;
