@@ -34,12 +34,12 @@ class FeedComment extends Component {
 						events.onRequestFocus(undefined, { ref: component });
 					}
 				}}
-				tabIndex="0"
+				tabIndex="-1"
 			>
 				<div className="slds-media__figure">
-					<a href="javascript:void(0);" className="slds-avatar slds-avatar_circle slds-avatar_medium">
+					<div className="slds-avatar slds-avatar_circle slds-avatar_medium" aria-hidden="true">
 						<img alt={user} src="./assets/images/avatar2.jpg" title={`${user} Avatar`} />
-					</a>
+					</div>
 				</div>
 				<div className="slds-media__body">
 					<header className="slds-media slds-media_center">

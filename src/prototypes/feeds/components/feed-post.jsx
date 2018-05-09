@@ -10,10 +10,7 @@ class FeedPost extends Component {
 
 	render() {
 		const {
-			active,
 			content,
-			events,
-			handleKeyUp,
 			i,
 			totalComments,
 			totalPosts,
@@ -22,25 +19,14 @@ class FeedPost extends Component {
 
 		return (
 			<article
-				aria-describedby={`feedPost${i}-label4`}
-				aria-labelledby={`feedPost${i}-label1 feedPost${i}-label2 feedPost${i}-label3`}
-				aria-posinset={i + 1}
-				aria-setsize={totalPosts}
 				className="slds-post"
 				data-type="feedPost"
-				onKeyUp={handleKeyUp}
-				ref={(component) => {
-					if (active) {
-						events.onRequestFocus(undefined, { ref: component });
-					}
-				}}
-				tabIndex="0"
 			>
 				<header className="slds-post__header slds-media">
 					<div className="slds-media__figure">
-						<a href="javascript:void(0);" className="slds-avatar slds-avatar_circle slds-avatar_large">
+						<div className="slds-avatar slds-avatar_circle slds-avatar_large" aria-hidden="true">
 							<img alt={user} src="./assets/images/avatar1.jpg" title={`${user} avatar`} />
-						</a>
+						</div>
 					</div>
 					<div className="slds-media__body">
 						<div className="slds-grid slds-grid_align-spread slds-has-flexi-truncate">

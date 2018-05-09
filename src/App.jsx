@@ -10,15 +10,15 @@ class App extends Component {
     return (
 			<Router>
 				<IconSettings iconPath="./assets/icons">
-					<div className="ht-full df">
-						<ul className="nav pvm slds-size_1-of-6 bg-navy text-aqua">
-							<li className="f3 caps phm pvs text-aqua slds-border_bottom fw-bold">A11y Prototypes</li>
-							<li className="f4"><NavLink className="db phm pvs" to="/feeds">Feeds</NavLink></li>
+					<nav className="pam df df-justify pos-fix wi-full f3 bg-navy text-aqua">
+						<span>a11y Prototypes</span>
+						<ul>
+							<li><NavLink to="/feeds">Feeds</NavLink></li>
 						</ul>
-						<div className="pam slds-size_5-of-6">
-							<Route path="/feeds" component={Feeds} />
-						</div>
-					</div>
+					</nav>
+					<main className="main-container-padding pam">
+						<Route path="/feeds" component={Feeds} />
+					</main>
 				</IconSettings>
 			</Router>
     );

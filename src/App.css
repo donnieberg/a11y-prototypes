@@ -275,3 +275,15 @@ h6,.f6 {      font-size: 0.5rem; }
   box-sizing: border-box;
 }
 
+.slds-feed {
+	max-width: 100%;
+	position: inherit;
+}
+
+.pt-main-container {
+	padding-top: 6rem;
+}
+
+.pl-feed {
+	padding-left: 25%;
+}
