@@ -117,7 +117,7 @@ class Feeds extends Component {
 	render() {
 		return (
 			<div className="slds-grid">
-				<section className="prm pos-fix slds-col slds-size_3-of-12 pt-main-container">
+				<section className="prm pos-fix slds-col slds-size_3-of-12">
 					<h1>Keyboard Interaction</h1>
 					<ol>
 						<li><span className="f3">1. J:</span> Move focus to next feed item.</li>
