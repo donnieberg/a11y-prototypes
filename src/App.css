@@ -11,8 +11,19 @@ body, html {
 
 img { max-width: 100%; }
 
-.slds-listbox__option:focus {
-	outline: 1px solid gray;
+.slds-listbox__option:focus,
+.group1:focus,
+.group2:focus,
+.group3:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid rgba(81, 203, 238, 1);
+}
+
+.mh-dropdown {
+	max-height: calc(((.8125rem * 1.5) + 1rem) * 10);
+	overflow-y: scroll;
 }
 
 /*  TYPOGRAPHY  ============================================================================= */

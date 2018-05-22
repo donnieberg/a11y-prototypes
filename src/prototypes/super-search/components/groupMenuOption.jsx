@@ -27,7 +27,7 @@ class GroupMenuOption extends Component {
 						}
 					}}
 					role="option"
-					tabIndex={lastIndex ? "0" : "-1" }>
+					tabIndex="-1">
 					<span
 						className="slds-truncate"
 						title={data.label}>

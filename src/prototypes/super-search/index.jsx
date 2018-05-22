@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonIcon, InputIcon } from 'design-system-react';
 import SuperSearchBasic from './components/SuperSearchBasic';
+import SuperSearchJumpRegions from './components/SuperSearchJumpRegions';
 
 class SuperSearch extends Component {
 	constructor(props) {
@@ -11,6 +12,7 @@ class SuperSearch extends Component {
 		return (
 			<div>
 				<SuperSearchBasic />
+				<SuperSearchJumpRegions />
 			</div>
 		)
 	}
