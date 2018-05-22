@@ -11,6 +11,10 @@ body, html {
 
 img { max-width: 100%; }
 
+.slds-listbox__option:focus {
+	outline: 1px solid gray;
+}
+
 /*  TYPOGRAPHY  ============================================================================= */
 .caps { text-transform: uppercase; }
 .italic { font-style:italic; }
@@ -97,23 +101,6 @@ textarea { border: none; }
 .text-aqua,
 .text-aqua a {
 	color: #7FDBFF;
-}
-
-.good-example .slds-dropdown__item a:hover,
-.good-example .slds-dropdown__item a:focus {
-	text-decoration: underline;
-}
-
-.bad-example .slds-dropdown__item >a:focus {
-	background-color: transparent;
-}
-
-.bad-example .slds-dropdown__item >a:hover {
-	text-decoration: underline;
-}
-
-.bad-example button:focus {
-	outline: none;
 }
 
 
